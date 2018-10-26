@@ -1,0 +1,15 @@
+<html>
+<body>
+  <div id="main">
+    <div id="header">
+        <%= @logged_in.message %>
+    </div>
+  </div>
+  <div id="content">
+    <h1>These are THE PEOPLE</h1>
+    <% for person in @people.persons %>
+      <%= person.first %>
+    <% end %>
+  </div>
+</body>
+</html>

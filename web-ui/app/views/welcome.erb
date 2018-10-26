@@ -1,0 +1,16 @@
+<html>
+<body>
+  <div id="main">
+    <div id="header">
+        <%= @logged_in.message %>
+    </div>
+  </div>
+  <div id="content">
+    <h1>Welcome to People Viewer</h1>
+
+    <form action="/people">
+      <input type="submit" value="View People" />
+    </form>
+  </div>
+</body>
+</html>

@@ -1,0 +1,14 @@
+{
+  "user-provided": [
+    {
+      "credentials": {
+       "url": "http://roster-app.example.com"
+      },
+      "label": "user-provided",
+      "name": "rest-backend",
+      "syslog_drain_url": "",
+      "tags": [],
+      "volume_mounts": []
+    }
+  ]
+}

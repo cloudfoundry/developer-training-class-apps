@@ -1,0 +1,20 @@
+<html>
+<body>
+  <div id="main">
+    <div id="header">
+        <%= @logged_in.message %>
+    </div>
+  </div>
+  <div id="content">
+    <h1>Welcome to the Cascading Failure People Viewer</h1>
+    <br>
+    <form action="/people">
+      <input type="submit" value="View People with failure" />
+    </form>
+    <br>
+    <form action="/people-safe">
+      <input type="submit" value="View People without failure">
+    </form>
+  </div>
+</body>
+</html>

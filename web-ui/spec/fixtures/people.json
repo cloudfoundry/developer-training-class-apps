@@ -1,0 +1,46 @@
+{
+  "_embedded" : {
+    "people" : [ {
+      "uuid" : "fe3a7b00-f318-4254-9067-32e853f4e4e5",
+      "firstName" : "foo",
+      "lastName" : "bar",
+      "_links" : {
+        "self" : {
+          "href" : "http://roster-plugin-app-proptosed-sf.cfapps.io/people/fe3a7b00-f318-4254-9067-32e853f4e4e5"
+        },
+        "person" : {
+          "href" : "http://roster-plugin-app-proptosed-sf.cfapps.io/people/fe3a7b00-f318-4254-9067-32e853f4e4e5"
+        }
+      }
+    }, {
+      "uuid" : "4dee71c5-5a55-44d3-8319-8717820fcf78",
+      "firstName" : "baz",
+      "lastName" : "bray",
+      "email" : "test@example.com",
+      "phoneNumber" : "1234",
+      "companyName" : "foo Co.",
+      "_links" : {
+        "self" : {
+          "href" : "http://roster-plugin-app-proptosed-sf.cfapps.io/people/4dee71c5-5a55-44d3-8319-8717820fcf78"
+        },
+        "person" : {
+          "href" : "http://roster-plugin-app-proptosed-sf.cfapps.io/people/4dee71c5-5a55-44d3-8319-8717820fcf78"
+        }
+      }
+    } ]
+  },
+  "_links" : {
+    "self" : {
+      "href" : "http://roster-plugin-app-proptosed-sf.cfapps.io/people"
+    },
+    "profile" : {
+      "href" : "http://roster-plugin-app-proptosed-sf.cfapps.io/profile/people"
+    }
+  },
+  "page" : {
+    "size" : 20,
+    "totalElements" : 2,
+    "totalPages" : 1,
+    "number" : 0
+  }
+}
