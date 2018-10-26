@@ -1,0 +1,24 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: rscale/cf-cli
+    tag: 'latest'
+
+inputs:
+- name: updated-repo
+
+run:
+  path: updated-repo/apps/rest-data-service/ci/test.sh
+
+params:
+  CF_API_URL:
+  CF_USER_NAME:
+  CF_PASSWORD:
+  CF_ORG:
+  CF_SKIP_SSL:
+  CF_SPACE:
+  MYSQL_SERVICE_NAME:
+  MYSQL_PLAN_NAME:
