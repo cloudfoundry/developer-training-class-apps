@@ -1,0 +1,161 @@
+---
+resources:
+- name: developer-training-course
+  type: git
+  source:
+    uri: git@github.com:cloudfoundry/developer-training-course.git
+    branch: master
+    private_key: {{private_key}}
+    ignore_paths: [apps/rest-data-service/*, ci/docker/*, apps/web-ui/*, apps/worker/*]
+
+- name: worker-app
+  type: git
+  source:
+    uri: git@github.com:cloudfoundry/developer-training-course.git
+    branch: master
+    private_key: {{private_key}}
+    paths: [apps/worker/*]
+
+- name: eb-docker-worker
+  type: docker-image
+  source:
+    repository: engineerbetter/worker-image
+    username: {{docker_user}}
+    password: {{docker_password}}
+
+- name: rest-data-service-jar
+  type: s3
+  source:
+    bucket: cff-ci-training
+    versioned_file: rest-data-service.jar
+    access_key_id: {{aws_access_key_id}}
+    secret_access_key: {{aws_secret_access_key}}
+
+jobs:
+- name: test-worker-app
+  plan:
+  - get: worker-app
+    trigger: true
+  - task: test-worker-app
+    file: worker-app/apps/worker/ci/tasks/test-worker-app.yml
+
+- name: build-worker-image
+  plan:
+  - get: worker-app
+    trigger: true
+    passed: [test-worker-app]
+  - put: eb-docker-worker
+    params:
+      build: worker-app/apps/worker
+
+- name: system-test-worker
+  plan:
+  - aggregate:
+    - get: worker-app
+      trigger: true
+      passed: [build-worker-image]
+    - get: rest-data-service-jar
+    - get: eb-docker-worker
+      trigger: true
+  - task: system-test-worker-app
+    file: worker-app/apps/worker/ci/tasks/system-test-worker.yml
+    params:
+      CF_API_URL: {{cf_api_url}}
+      CF_USER_NAME: {{cf_user_name}}
+      CF_PASSWORD: {{cf_password}}
+      CF_ORG: {{cf_org}}
+      CF_SKIP_SSL: {{cf_skip_ssl}}
+      CF_SPACE: {{cf_space}}
+    on_failure:
+      task: cleanup-worker-app
+      file: worker-app/apps/worker/ci/tasks/cleanup-worker-app.yml
+      params:
+        CF_API_URL: {{cf_api_url}}
+        CF_USER_NAME: {{cf_user_name}}
+        CF_PASSWORD: {{cf_password}}
+        CF_ORG: {{cf_org}}
+        CF_SKIP_SSL: {{cf_skip_ssl}}
+        CF_SPACE: {{cf_space}}
+
+- name: cleanup-worker-app
+  plan:
+  - get: worker-app
+    trigger: true
+    passed: [system-test-worker]
+  - task: cleanup-worker-app
+    file: worker-app/apps/worker/ci/tasks/cleanup-worker-app.yml
+    params:
+      CF_API_URL: {{cf_api_url}}
+      CF_USER_NAME: {{cf_user_name}}
+      CF_PASSWORD: {{cf_password}}
+      CF_ORG: {{cf_org}}
+      CF_SKIP_SSL: {{cf_skip_ssl}}
+      CF_SPACE: {{cf_space}}
+
+- name: test-docker-push-exercise
+  plan:
+  - aggregate:
+    - get: developer-training-course
+      trigger: true
+    - get: rest-data-service-jar
+  - task: test-docker-push-exercise
+    file: developer-training-course/exercises/push-docker/ci/solution.yml
+    params:
+      CF_API_URL: {{cf_api_url}}
+      CF_USER_NAME: {{cf_user_name}}
+      CF_PASSWORD: {{cf_password}}
+      CF_ORG: {{cf_org}}
+      CF_SKIP_SSL: {{cf_skip_ssl}}
+      CF_SPACE: {{cf_space}}
+    on_failure:
+      task: cleanup-docker-push-exercise
+      file: developer-training-course/exercises/push-docker/ci/cleanup.yml
+      params:
+        CF_API_URL: {{cf_api_url}}
+        CF_USER_NAME: {{cf_user_name}}
+        CF_PASSWORD: {{cf_password}}
+        CF_ORG: {{cf_org}}
+        CF_SKIP_SSL: {{cf_skip_ssl}}
+        CF_SPACE: {{cf_space}}
+
+- name: test-service-keys-exercise
+  plan:
+  - get: developer-training-course
+    passed: [test-docker-push-exercise]
+    trigger: true
+  - task: test-docker-push-exercise
+    file: developer-training-course/exercises/service-keys/ci/solution.yml
+    params:
+      CF_API_URL: {{cf_api_url}}
+      CF_USER_NAME: {{cf_user_name}}
+      CF_PASSWORD: {{cf_password}}
+      CF_ORG: {{cf_org}}
+      CF_SKIP_SSL: {{cf_skip_ssl}}
+      CF_SPACE: {{cf_space}}
+      MYSQL_SERVICE_NAME: {{mysql_service_name}}
+      MYSQL_PLAN_NAME: {{mysql_plan_name}}
+    on_failure:
+      task: cleanup-docker-push-exercise
+      file: developer-training-course/exercises/push-docker/ci/cleanup.yml
+      params:
+        CF_API_URL: {{cf_api_url}}
+        CF_USER_NAME: {{cf_user_name}}
+        CF_PASSWORD: {{cf_password}}
+        CF_ORG: {{cf_org}}
+        CF_SKIP_SSL: {{cf_skip_ssl}}
+        CF_SPACE: {{cf_space}}
+
+- name: cleanup-docker-push-exercise
+  plan:
+  - get: developer-training-course
+    trigger: true
+    passed: [test-service-keys-exercise]
+  - task: cleanup-docker-push-exercise
+    file: developer-training-course/exercises/push-docker/ci/cleanup.yml
+    params:
+      CF_API_URL: {{cf_api_url}}
+      CF_USER_NAME: {{cf_user_name}}
+      CF_PASSWORD: {{cf_password}}
+      CF_ORG: {{cf_org}}
+      CF_SKIP_SSL: {{cf_skip_ssl}}
+      CF_SPACE: {{cf_space}}

@@ -1,0 +1,43 @@
+{
+  "user-provided": [
+    {
+      "credentials": {
+      "url": "http://notherighturl.org"
+      },
+      "label": "user-provided",
+      "name": "other-backend",
+      "syslog_drain_url": "",
+      "tags": [],
+      "volume_mounts": []
+    },{
+      "credentials": {
+       "url": "http://roster-app.example.com"
+      },
+      "label": "user-provided",
+      "name": "rest-backend",
+      "syslog_drain_url": "",
+      "tags": [],
+      "volume_mounts": []
+    },{
+     "credentials": {
+      "url": "http://stillnotherighturl.org"
+     },
+     "label": "user-provided",
+     "name": "other-backend2",
+     "syslog_drain_url": "",
+     "tags": [],
+     "volume_mounts": []
+    },{
+     "credentials": {
+     "client_name": "oauth_showcase_authorization_code",
+     "client_secret": "secret",
+     "url": "https://myuaa-app.cfapps.io"
+    },
+    "label": "user-provided",
+    "name": "uaa-tokens",
+    "syslog_drain_url": "",
+    "tags": [],
+    "volume_mounts": []
+   }
+  ]
+}
