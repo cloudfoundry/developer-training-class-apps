@@ -1,0 +1,15 @@
+---
+applications:
+  - name: uaa-guard-proxy
+    buildpack: go_buildpack
+    command: proxy
+    path: proxy
+    memory: 128M
+    routes:
+      - route: ((uaa-guard-proxy-route))
+    env:
+      GUARD_COOKIE_SECRET: very-secret
+      GUARD_DEFAULT_CALLBACK_URL: https://((uaa-guard-proxy-route))/auth/cloudfoundry/callback
+      GUARD_LOGIN_URL: https://((uaa-route))
+      GUARD_CLIENT_KEY: dashboard
+      GUARD_CLIENT_SECRET: dashboardsecret
