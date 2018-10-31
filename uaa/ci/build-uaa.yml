@@ -1,0 +1,28 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: rscale/gradle
+    tag: 'latest'
+
+inputs:
+- name: uaa
+
+outputs:
+- name: updated-repo
+
+params:
+  CF_APP_DOMAIN:
+
+run:
+  path: bash
+  args:
+  - -excu
+  - |
+    app_name='uaa-95810691'
+    git clone uaa updated-repo
+    pushd updated-repo
+      ./gradlew manifests -Dapp=$app_name -Dapp-domain=$CF_APP_DOMAIN
+    popd

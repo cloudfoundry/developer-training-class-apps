@@ -1,0 +1,25 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: rscale/cf-cli-ruby
+    tag: 'latest'
+
+inputs:
+- name: uaa-war-test
+- name: uaa-war-manifest-test
+- name: developer-training-course
+
+run:
+  path: apps/uaa/ci/test.sh
+  dir: developer-training-course
+
+params:
+  CF_API_URL:
+  CF_USER_NAME:
+  CF_PASSWORD:
+  CF_ORG:
+  CF_SKIP_SSL:
+  CF_SPACE:
