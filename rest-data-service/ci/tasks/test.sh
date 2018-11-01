@@ -10,16 +10,8 @@ service_name=$RANDOM$RANDOM
 echo "Create database service"
 cf create-service $MYSQL_SERVICE_NAME $MYSQL_PLAN_NAME $service_name
 
-pwd
-ls
-ls "source"
-ls rest-data-service/target
-ls source/rest-data-service/target
-
-
-
 echo "Push app"
-cf push $app_name -p source/rest-data-service/target/rest-data-service.jar --random-route --no-start -m 750M
+cf push $app_name -p artifacts/rest-data-service.jar --random-route --no-start -m 750M
 cf set-env $app_name ROSTER_A bar
 cf set-env $app_name ROSTER_C foo
 cf set-env $app_name ROSTER_B baz

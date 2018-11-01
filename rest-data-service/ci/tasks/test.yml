@@ -9,6 +9,7 @@ image_resource:
 
 inputs:
 - name: source
+- name: artifacts
 
 run:
   path: source/rest-data-service/ci/tasks/test.sh
