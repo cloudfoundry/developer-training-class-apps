@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd source/${APP_PATH}
+cd source/rate-limit-route-service
 
 mvn clean package
 

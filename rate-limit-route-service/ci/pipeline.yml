@@ -1,0 +1,31 @@
+---
+
+resources:
+
+- name: source
+  type: git
+  source:
+    uri: https://github.com/cloudfoundry/developer-training-class-apps.git
+    branch: master
+    paths: [rate-limit-route-service/*]
+
+- name: jar
+  type: s3
+  source:
+    bucket: ((assets_bucket_name))
+    region_name: ((assets_bucket_region))
+    versioned_file: rate-limit-route-service.jar
+    access_key_id: ((aws_access_key_id))
+    secret_access_key: ((aws_secret_access_key))
+
+jobs:
+
+- name: build
+  plan:
+  - get: source
+    trigger: true
+  - task: mvn-clean-package
+    file: source/ci/tasks/mvn-clean-package.yml
+  - put: jar
+    params:
+      file: artifacts/rate-limit-route-service.jar
