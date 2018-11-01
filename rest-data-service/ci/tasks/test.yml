@@ -8,17 +8,7 @@ image_resource:
     tag: 'latest'
 
 inputs:
-- name: updated-rep
+- name: source
 
 run:
-  path: updated-repo/apps/rest-data-service/ci/test.sh
-
-params:
-  CF_API_URL:
-  CF_USER_NAME:
-  CF_PASSWORD:
-  CF_ORG:
-  CF_SKIP_SSL:
-  CF_SPACE:
-  MYSQL_SERVICE_NAME:
-  MYSQL_PLAN_NAME:
+  path: source/rest-data-service/ci/tasks/test.sh
