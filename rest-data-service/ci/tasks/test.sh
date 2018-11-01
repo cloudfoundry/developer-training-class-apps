@@ -12,6 +12,11 @@ dirname=$(dirname $0)
 echo "Create database service"
 cf create-service $MYSQL_SERVICE_NAME $MYSQL_PLAN_NAME $service_name
 
+pwd
+ls
+ls ../..
+
+
 echo "Push app"
 cf push $app_name -p $dirname/../../target/rest-data-service.jar --random-route --no-start -m 750M
 cf set-env $app_name ROSTER_A bar
