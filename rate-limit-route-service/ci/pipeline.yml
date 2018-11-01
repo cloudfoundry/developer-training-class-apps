@@ -25,7 +25,7 @@ jobs:
   - get: source
     trigger: true
   - task: mvn-clean-package
-    file: source/ci/tasks/mvn-clean-package.yml
+    file: source/rate-limit-route-service/ci/tasks/mvn-clean-package.yml
   - put: jar
     params:
       file: artifacts/rate-limit-route-service.jar

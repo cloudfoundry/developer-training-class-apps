@@ -14,4 +14,4 @@ outputs:
 - name: artifacts
 
 run:
-  path: source/ci/tasks/mvn-clean-package.sh
+  path: source/rate-limit-route-service/ci/tasks/mvn-clean-package.sh
