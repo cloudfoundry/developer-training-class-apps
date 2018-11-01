@@ -1,0 +1,42 @@
+---
+
+resources:
+
+- name: source
+  type: git
+  source:
+    uri: https://github.com/cloudfoundry/developer-training-class-apps.git
+    branch: master
+    paths: [rest-data-service/*]
+
+- name: jar
+  type: s3
+  source:
+    bucket: ((assets_bucket_name))
+    region_name: ((assets_bucket_region))
+    versioned_file: rest-data-service.jar
+    access_key_id: ((aws_access_key_id))
+    secret_access_key: ((aws_secret_access_key))
+
+jobs:
+
+- name: build
+  plan:
+  - get: source
+    trigger: true
+  - task: mvn-clean-package
+    file: source/rest-data-service/ci/tasks/mvn-clean-package.yml
+  - task: test-rest-data-service
+    file: source/rest-data-service/ci/tasks/test.yml
+    params:
+      CF_API_URL: ((cf_api_url))
+      CF_USER_NAME: ((cf_user_name))
+      CF_PASSWORD: ((cf_password))
+      CF_ORG: ((cf_org))
+      CF_SKIP_SSL: ((cf_skip_ssl))
+      CF_SPACE: ((cf_space))
+      MYSQL_SERVICE_NAME: ((mysql_service_name))
+      MYSQL_PLAN_NAME: ((mysql_plan_name))
+  - put: jar
+    params:
+      file: artifacts/rest-data-service.jar

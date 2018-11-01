@@ -8,7 +8,7 @@ image_resource:
     tag: 'latest'
 
 inputs:
-- name: updated-repo
+- name: updated-rep
 
 run:
   path: updated-repo/apps/rest-data-service/ci/test.sh
