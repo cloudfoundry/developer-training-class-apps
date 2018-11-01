@@ -5,12 +5,18 @@ set -eu
 app_name=$RANDOM$RANDOM
 service_name=$RANDOM$RANDOM
 
-dirname=$(dirname $0)
-
 . source/ci/solution_setup.sh
 
 echo "Create database service"
 cf create-service $MYSQL_SERVICE_NAME $MYSQL_PLAN_NAME $service_name
+
+pwd
+ls
+ls "source"
+ls rest-data-service/target
+ls source/rest-data-service/target
+
+
 
 echo "Push app"
 cf push $app_name -p source/rest-data-service/target/rest-data-service.jar --random-route --no-start -m 750M
