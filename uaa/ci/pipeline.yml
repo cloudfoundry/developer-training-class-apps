@@ -1,10 +1,11 @@
-# cf-params: &cf-params
-#       CF_API_URL: ((cf_api_url))
-#       CF_USER_NAME: ((cf_user_name))
-#       CF_PASSWORD: ((cf_password))
-#       CF_ORG: ((cf_org))
-#       CF_SKIP_SSL: ((cf_skip_ssl))
-#       CF_SPACE: ((cf_space))
+cf-params: &cf-params
+      CF_API_URL: ((cf_api_url))
+      CF_USER_NAME: ((cf_user_name))
+      CF_PASSWORD: ((cf_password))
+      CF_ORG: ((cf_org))
+      CF_SKIP_SSL: ((cf_skip_ssl))
+      CF_SPACE: ((cf_space))
+      CF_APP_DOMAIN: ((cf_app_domain))
 
 resources:
 
@@ -33,7 +34,7 @@ resources:
 
 jobs:
 
-- name: build-uaa-war
+- name: build
   plan:
   - aggregate:
     - get: uaa-source
@@ -44,40 +45,32 @@ jobs:
     params:
       file: artifacts/uaa.war
 
-# - name: test-uaa-war
-#   plan:
-#   - aggregate:
-#     - get: uaa-war-test
-#       trigger: true
-#       passed: [build-uaa-war]
-#     - get: uaa-war-manifest-test
-#       trigger: true
-#       passed: [build-uaa-war]
-#     - get: developer-training-course
-#       passed: [build-uaa-war]
-#   - task: test-uaa-war
-#     file: developer-training-course/apps/uaa/ci/test-uaa.yml
-#     params: *cf-params
-#     on_failure:
-#       task: cleanup-uaa
-#       file: developer-training-course/apps/uaa/ci/cleanup-uaa.yml
-#       params: *cf-params
-#   - aggregate:
-#     - put: uaa-war
-#       params:
-#         file: uaa-war-test/cloudfoundry-identity-uaa-3.11.0.war
-#     - put: uaa-war-manifest
-#       params:
-#         file: uaa-war-manifest-test/uaa-cf-application.yml
-#
-# - name: cleanup-uaa-war
-#   plan:
-#   - aggregate:
-#     - get: developer-training-course
-#       passed: [test-uaa-war]
-#     - get: uaa-war-test
-#       trigger: true
-#       passed: [test-uaa-war]
-#   - task: cleanup-uaa-war
-#     file: developer-training-course/apps/uaa/ci/cleanup-uaa.yml
-#     params: *cf-params
+- name: test
+  plan:
+  - aggregate:
+    - get: uaa-war
+      trigger: true
+      passed: [build]
+    - get: source
+      trigger: true
+      passed: [build]
+  - task: test-uaa-war
+    file: source/uaa/ci/tasks/test.yml
+    params: *cf-params
+    on_failure:
+      task: cleanup-uaa
+      file: source/uaa/ci/tasks/cleanup.yml
+      params: *cf-params
+
+- name: cleanup
+  plan:
+  - aggregate:
+    - get: source
+      passed: [test]
+      trigger: true
+    - get: uaa-war
+      trigger: true
+      passed: [test]
+  - task: cleanup-uaa-war
+    file: source/uaa/ci/tasks/cleanup.yml
+    params: *cf-params

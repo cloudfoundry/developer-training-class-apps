@@ -2,18 +2,19 @@
 
 set -eu
 
-app_name=uaa-95810691
+. source/ci/solution_setup.sh
 
-dirname=$(dirname $0)
+git_sha=$(get_short_revision source)
 
-. $dirname/../../../ci/solution_setup.sh
+app_name=uaa-${git_sha}
+
+route="${app_name}.${CF_APP_DOMAIN}"
 
 # fail fast if we cannot install the required gem
 gem install cf-uaac || (echo "unable to install the required gem" && exit 1)
 
-cf push $app_name -m 1G -f ../uaa-war-manifest-test/uaa-cf-application.yml -p ../uaa-war-test/cloudfoundry-identity-uaa-3.11.0.war
+cf push $app_name -m 1G -f source/uaa/uaa-manifest.yml -p uaa-war/uaa.war --var route=${route}
 
-route=$(get_route $app_name)
 curl -L --fail -o/dev/null $route || (echo "Could not reach $app_name with valid response" && exit 1)
 
 uaac target $route || (echo "Unable to target uaa" && exit 1)

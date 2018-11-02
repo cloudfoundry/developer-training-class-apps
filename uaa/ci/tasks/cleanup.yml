@@ -4,17 +4,14 @@ platform: linux
 image_resource:
   type: docker-image
   source:
-    repository: rscale/cf-cli-ruby
+    repository: rscale/cf-cli
     tag: 'latest'
 
 inputs:
-- name: uaa-war-test
-- name: uaa-war-manifest-test
-- name: developer-training-course
+- name: source
 
 run:
-  path: apps/uaa/ci/test.sh
-  dir: developer-training-course
+  path: source/uaa/ci/tasks.cleanup.sh
 
 params:
   CF_API_URL:
