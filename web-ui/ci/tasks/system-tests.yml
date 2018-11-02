@@ -13,12 +13,4 @@ inputs:
 - name: uaa-war-manifest
 
 run:
-  path: source/ci/scripts/system-tests.sh
-
-params:
-  CF_API_URL:
-  CF_USER_NAME:
-  CF_PASSWORD:
-  CF_ORG:
-  CF_SKIP_SSL:
-  CF_SPACE:
+  path: source/ci/tasks/system-tests.sh
