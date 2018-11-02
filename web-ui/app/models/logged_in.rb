@@ -62,7 +62,7 @@ end
 
 def uaa_token_creds
   return nil if vcap_services.nil?
-  
+
   json = JSON.parse(vcap_services)
   service_array = json['user-provided']
   cf_service = service_array.select do |service|
