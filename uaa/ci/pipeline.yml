@@ -27,7 +27,7 @@ resources:
   source:
     bucket: ((assets_bucket_name))
     region_name: ((assets_bucket_region))
-    versioned_file: cloudfoundry-identity-uaa-3.11.0.war
+    versioned_file: uaa.war
     access_key_id: ((aws_access_key_id))
     secret_access_key: ((aws_secret_access_key))
 
@@ -38,12 +38,11 @@ jobs:
   - aggregate:
     - get: uaa-source
     - get: source
-      trigger: true
   - task: build-uaa-war
     file: source/uaa/ci/build-uaa.yml
-  - put: uaa-war-test
+  - put: uaa-war
     params:
-      file: artifacts/*.war
+      file: artifacts/uaa.war
 
 # - name: test-uaa-war
 #   plan:
