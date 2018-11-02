@@ -12,3 +12,12 @@ inputs:
 
 run:
   path: source/web-ui/ci/tasks/system-tests.sh
+
+params:
+  CF_API_URL:
+  CF_USER_NAME:
+  CF_PASSWORD:
+  CF_ORG:
+  CF_SKIP_SSL:
+  CF_SPACE:
+  CF_APP_DOMAIN:
