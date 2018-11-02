@@ -71,6 +71,7 @@ end
 
 def rest_backend_url
   return nil if vcap_services.nil?
+  
   json = JSON.parse(vcap_services)
   service_array = json['user-provided']
   service_array.select do |service|
