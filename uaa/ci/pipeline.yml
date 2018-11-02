@@ -1,0 +1,84 @@
+# cf-params: &cf-params
+#       CF_API_URL: ((cf_api_url))
+#       CF_USER_NAME: ((cf_user_name))
+#       CF_PASSWORD: ((cf_password))
+#       CF_ORG: ((cf_org))
+#       CF_SKIP_SSL: ((cf_skip_ssl))
+#       CF_SPACE: ((cf_space))
+
+resources:
+
+- name: source
+  type: git
+  source:
+    uri: https://github.com/cloudfoundry/developer-training-class-apps.git
+    branch: master
+    paths: [uaa/*,ci/solution_setup.sh]
+
+- name: uaa-source
+  type: git
+  source:
+    uri: https://github.com/cloudfoundry/uaa.git
+    branch: master
+    tag_filter: "3.11.0"
+
+- name: uaa-war
+  type: s3
+  source:
+    bucket: ((assets_bucket_name))
+    region_name: ((assets_bucket_region))
+    versioned_file: cloudfoundry-identity-uaa-3.11.0.war
+    access_key_id: ((aws_access_key_id))
+    secret_access_key: ((aws_secret_access_key))
+
+jobs:
+
+- name: build-uaa-war
+  plan:
+  - aggregate:
+    - get: uaa-source
+    - get: source
+      trigger: true
+  - task: build-uaa-war
+    file: source/uaa/ci/build-uaa.yml
+  - put: uaa-war-test
+    params:
+      file: artifacts/*.war
+
+# - name: test-uaa-war
+#   plan:
+#   - aggregate:
+#     - get: uaa-war-test
+#       trigger: true
+#       passed: [build-uaa-war]
+#     - get: uaa-war-manifest-test
+#       trigger: true
+#       passed: [build-uaa-war]
+#     - get: developer-training-course
+#       passed: [build-uaa-war]
+#   - task: test-uaa-war
+#     file: developer-training-course/apps/uaa/ci/test-uaa.yml
+#     params: *cf-params
+#     on_failure:
+#       task: cleanup-uaa
+#       file: developer-training-course/apps/uaa/ci/cleanup-uaa.yml
+#       params: *cf-params
+#   - aggregate:
+#     - put: uaa-war
+#       params:
+#         file: uaa-war-test/cloudfoundry-identity-uaa-3.11.0.war
+#     - put: uaa-war-manifest
+#       params:
+#         file: uaa-war-manifest-test/uaa-cf-application.yml
+#
+# - name: cleanup-uaa-war
+#   plan:
+#   - aggregate:
+#     - get: developer-training-course
+#       passed: [test-uaa-war]
+#     - get: uaa-war-test
+#       trigger: true
+#       passed: [test-uaa-war]
+#   - task: cleanup-uaa-war
+#     file: developer-training-course/apps/uaa/ci/cleanup-uaa.yml
+#     params: *cf-params
