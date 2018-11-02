@@ -48,6 +48,7 @@ jobs:
   - aggregate:
     - get: uaa-source
     - get: source
+      trigger: true
   - task: build-uaa-war
     file: source/uaa/ci/tasks/build.yml
   - put: uaa-war
