@@ -13,3 +13,13 @@ inputs:
 
 run:
   path: source/rest-data-service/ci/tasks/test.sh
+
+params:
+  CF_API_URL:
+  CF_USER_NAME:
+  CF_PASSWORD:
+  CF_ORG:
+  CF_SKIP_SSL:
+  CF_SPACE:
+  MYSQL_SERVICE_NAME:
+  MYSQL_PLAN_NAME:
