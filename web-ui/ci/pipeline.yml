@@ -1,0 +1,92 @@
+---
+
+cf-params: &cf-params
+      CF_API_URL: ((cf_api_url))
+      CF_USER_NAME: ((cf_user_name))
+      CF_PASSWORD: ((cf_password))
+      CF_ORG: ((cf_org))
+      CF_SKIP_SSL: ((cf_skip_ssl))
+      CF_SPACE: ((cf_space))
+
+resources:
+
+- name: source
+  type: git
+  source:
+    uri: https://github.com/cloudfoundry/developer-training-class-apps.git
+    branch: master
+    paths: [web-ui/*]
+
+# - name: uaa-war
+#   type: s3
+#   source:
+#     bucket: ((assets_bucket_name))
+#     region_name: ((assets_bucket_region))
+#     versioned_file: cloudfoundry-identity-uaa-3.11.0.war
+#     access_key_id: ((aws_access_key_id))
+#     secret_access_key: ((aws_secret_access_key))
+#
+# - name: rest-data-service-jar
+#   type: s3
+#   source:
+#     bucket: ((assets_bucket_name))
+#     region_name: ((assets_bucket_region))
+#     versioned_file: rest-data-service.jar
+#     access_key_id: ((aws_access_key_id))
+#     secret_access_key: ((aws_secret_access_key))
+
+jobs:
+
+- name: unit-test
+  plan:
+  - get: web-ui
+    trigger: true
+  - task: unit-test-web-ui
+    file: source/web-ui/ci/tasks/run-unit-tests.yml
+
+# - name: deploy-web-ui
+#   plan:
+#   - aggregate:
+#     - get: web-ui
+#       passed: [unit-test]
+#       trigger: true
+#     - get: uaa-war
+#       trigger: true
+#     - get: rest-data-service-jar
+#   - task: deploy-web-ui
+#     file: source/web-ui/ci/tasks/deploy.yml
+#     params: *cf-params
+#     on_failure:
+#       task: cleanup-web-ui
+#       file: web-ui/apps/web-ui/ci/tasks/cleanup.yml
+#       params: *cf-params
+#
+# - name: system-test-web-ui
+#   plan:
+#   - aggregate:
+#     - get: web-ui
+#       passed: [deploy-web-ui]
+#       trigger: true
+#     - get: rest-data-service-jar
+#     - get: uaa-war
+#       trigger: true
+#       passed: [deploy-web-ui]
+#     - get: uaa-war-manifest
+#       trigger: true
+#       passed: [test-uaa-war]
+#   - task: system-test-web-ui
+#     file: web-ui/apps/web-ui/ci/tasks/system-tests.yml
+#     params: *cf-params
+#     on_failure:
+#       task: cleanup-web-ui
+#       file: web-ui/apps/web-ui/ci/tasks/cleanup.yml
+#       params: *cf-params
+#
+# - name: cleanup-web-ui
+#   plan:
+#   - get: web-ui
+#     passed: [system-test-web-ui]
+#     trigger: true
+#   - task: cleanup-web-ui
+#     file: web-ui/apps/web-ui/ci/tasks/cleanup.yml
+#     params: *cf-params

@@ -1,0 +1,15 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: rscale/cf-cli-ruby
+    tag: 'latest'
+
+inputs:
+- name: source
+
+run:
+  path: source/web-ui/ci/tasks/unit-tests.sh
+  dir: web-ui
