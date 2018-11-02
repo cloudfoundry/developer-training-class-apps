@@ -4,4 +4,4 @@ cd uaa-source
 
 ./gradlew clean assemble
 
-cp /uaa/build/libs/*.war artifacts/uaa.war
+cp uaa/build/libs/*.war artifacts/uaa.war
