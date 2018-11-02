@@ -24,7 +24,7 @@ cf cups $rest_service_name -p "{\"url\":\"$data_route\"}"
 cf bind-service $app_name $rest_service_name
 cf start $app_name
 
-cf push $static_app_name -b https://github.com/cloudfoundry/staticfile-buildpack.git -p source/web-ui/
+cf push $static_app_name -m 128M -b https://github.com/cloudfoundry/staticfile-buildpack.git -p source/web-ui/
 
 
 route=$(get_route $app_name)
