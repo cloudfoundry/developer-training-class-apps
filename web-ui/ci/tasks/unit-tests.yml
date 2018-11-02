@@ -12,4 +12,3 @@ inputs:
 
 run:
   path: source/web-ui/ci/tasks/unit-tests.sh
-  dir: web-ui
