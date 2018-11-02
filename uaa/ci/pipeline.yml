@@ -39,7 +39,7 @@ jobs:
     - get: uaa-source
     - get: source
   - task: build-uaa-war
-    file: source/uaa/ci/build.yml
+    file: source/uaa/ci/tasks/build.yml
   - put: uaa-war
     params:
       file: artifacts/uaa.war
