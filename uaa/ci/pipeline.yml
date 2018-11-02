@@ -32,6 +32,15 @@ resources:
     access_key_id: ((aws_access_key_id))
     secret_access_key: ((aws_secret_access_key))
 
+- name: uaa-manifest
+  type: s3
+  source:
+    bucket: ((assets_bucket_name))
+    region_name: ((assets_bucket_region))
+    versioned_file: uaa-manifest.yml
+    access_key_id: ((aws_access_key_id))
+    secret_access_key: ((aws_secret_access_key))
+
 jobs:
 
 - name: build
@@ -61,6 +70,15 @@ jobs:
       task: cleanup-uaa
       file: source/uaa/ci/tasks/cleanup.yml
       params: *cf-params
+
+- name: upload-manifest
+  plan:
+  - get: source
+    trigger: true
+    passed: [test]
+  - put: uaa-manifest
+    params:
+      file: source/uaa/uaa-manifest.yml
 
 - name: cleanup
   plan:
