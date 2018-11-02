@@ -8,12 +8,11 @@ image_resource:
     tag: 'latest'
 
 inputs:
-- name: web-ui
+- name: source
 - name: rest-data-service-jar
 
 run:
-  path: apps/web-ui/ci/scripts/deploy.sh
-  dir: web-ui
+  path: source/web-ui/ci/tasks/deploy.sh
 
 params:
   CF_API_URL:

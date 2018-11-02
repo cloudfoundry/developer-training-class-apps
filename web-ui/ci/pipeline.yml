@@ -15,7 +15,7 @@ resources:
   source:
     uri: https://github.com/cloudfoundry/developer-training-class-apps.git
     branch: master
-    paths: [web-ui/*]
+    paths: [web-ui/*,ci/solution_setup.sh]
 
 # - name: uaa-war
 #   type: s3
@@ -26,14 +26,14 @@ resources:
 #     access_key_id: ((aws_access_key_id))
 #     secret_access_key: ((aws_secret_access_key))
 #
-# - name: rest-data-service-jar
-#   type: s3
-#   source:
-#     bucket: ((assets_bucket_name))
-#     region_name: ((assets_bucket_region))
-#     versioned_file: rest-data-service.jar
-#     access_key_id: ((aws_access_key_id))
-#     secret_access_key: ((aws_secret_access_key))
+- name: rest-data-service-jar
+  type: s3
+  source:
+    bucket: ((assets_bucket_name))
+    region_name: ((assets_bucket_region))
+    versioned_file: rest-data-service.jar
+    access_key_id: ((aws_access_key_id))
+    secret_access_key: ((aws_secret_access_key))
 
 jobs:
 
@@ -44,22 +44,23 @@ jobs:
   - task: unit-test-web-ui
     file: source/web-ui/ci/tasks/unit-tests.yml
 
-# - name: deploy-web-ui
-#   plan:
-#   - aggregate:
-#     - get: web-ui
-#       passed: [unit-test]
-#       trigger: true
-#     - get: uaa-war
-#       trigger: true
-#     - get: rest-data-service-jar
-#   - task: deploy-web-ui
-#     file: source/web-ui/ci/tasks/deploy.yml
-#     params: *cf-params
-#     on_failure:
-#       task: cleanup-web-ui
-#       file: web-ui/apps/web-ui/ci/tasks/cleanup.yml
-#       params: *cf-params
+- name: deploy
+  plan:
+  - aggregate:
+    - get: source
+      passed: [unit-test]
+      trigger: true
+    # - get: uaa-war
+    #   trigger: true
+    - get: rest-data-service-jar
+      trigger: true
+  - task: deploy-web-ui
+    file: source/web-ui/ci/tasks/deploy.yml
+    params: *cf-params
+    on_failure:
+      task: cleanup-web-ui
+      file: source/web-ui/ci/tasks/cleanup.yml
+      params: *cf-params
 #
 # - name: system-test-web-ui
 #   plan:

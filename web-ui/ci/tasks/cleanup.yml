@@ -8,11 +8,10 @@ image_resource:
     tag: 'latest'
 
 inputs:
-- name: web-ui
+- name: source
 
 run:
-  path: apps/web-ui/ci/scripts/cleanup.sh
-  dir: web-ui
+  path: source/web-ui/ci/scripts/cleanup.sh
 
 params:
   CF_API_URL:
