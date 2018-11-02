@@ -9,8 +9,6 @@ image_resource:
 
 inputs:
 - name: source
-- name: uaa-war
-- name: uaa-war-manifest
 
 run:
-  path: source/ci/tasks/system-tests.sh
+  path: source/web-ui/ci/tasks/system-tests.sh
