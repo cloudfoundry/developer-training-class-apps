@@ -42,7 +42,7 @@ jobs:
   - get: source
     trigger: true
   - task: unit-test-web-ui
-    file: source/web-ui/ci/tasks/run-unit-tests.yml
+    file: source/web-ui/ci/tasks/unit-tests.yml
 
 # - name: deploy-web-ui
 #   plan:
