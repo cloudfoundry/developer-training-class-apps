@@ -9,6 +9,8 @@ image_resource:
 
 inputs:
 - name: source
+- name: uaa-war
+- name: uaa-manifest
 - name: rest-data-service-jar
 
 run:
@@ -21,3 +23,4 @@ params:
   CF_ORG:
   CF_SKIP_SSL:
   CF_SPACE:
+  CF_APP_DOMAIN:

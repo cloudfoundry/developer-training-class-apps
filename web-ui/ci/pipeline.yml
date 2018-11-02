@@ -7,6 +7,7 @@ cf-params: &cf-params
       CF_ORG: ((cf_org))
       CF_SKIP_SSL: ((cf_skip_ssl))
       CF_SPACE: ((cf_space))
+      CF_APP_DOMAIN: ((cf_app_domain))
 
 resources:
 
@@ -17,15 +18,24 @@ resources:
     branch: master
     paths: [web-ui/*,ci/solution_setup.sh]
 
-# - name: uaa-war
-#   type: s3
-#   source:
-#     bucket: ((assets_bucket_name))
-#     region_name: ((assets_bucket_region))
-#     versioned_file: cloudfoundry-identity-uaa-3.11.0.war
-#     access_key_id: ((aws_access_key_id))
-#     secret_access_key: ((aws_secret_access_key))
-#
+- name: uaa-war
+  type: s3
+  source:
+    bucket: ((assets_bucket_name))
+    region_name: ((assets_bucket_region))
+    versioned_file: uaa.war
+    access_key_id: ((aws_access_key_id))
+    secret_access_key: ((aws_secret_access_key))
+
+- name: uaa-manifest
+  type: s3
+  source:
+    bucket: ((assets_bucket_name))
+    region_name: ((assets_bucket_region))
+    versioned_file: uaa-manifest.yml
+    access_key_id: ((aws_access_key_id))
+    secret_access_key: ((aws_secret_access_key))
+
 - name: rest-data-service-jar
   type: s3
   source:
@@ -44,50 +54,38 @@ jobs:
   - task: unit-test-web-ui
     file: source/web-ui/ci/tasks/unit-tests.yml
 
-- name: deploy
+- name: integration-test
   plan:
   - aggregate:
     - get: source
       passed: [unit-test]
       trigger: true
-    # - get: uaa-war
-    #   trigger: true
+    - get: uaa-war
+      trigger: true
+    - get: uaa-manifest
+      trigger: true
     - get: rest-data-service-jar
       trigger: true
-  - task: deploy-web-ui
+  - task: deploy
     file: source/web-ui/ci/tasks/deploy.yml
     params: *cf-params
     on_failure:
       task: cleanup-web-ui
       file: source/web-ui/ci/tasks/cleanup.yml
       params: *cf-params
-#
-# - name: system-test-web-ui
-#   plan:
-#   - aggregate:
-#     - get: web-ui
-#       passed: [deploy-web-ui]
-#       trigger: true
-#     - get: rest-data-service-jar
-#     - get: uaa-war
-#       trigger: true
-#       passed: [deploy-web-ui]
-#     - get: uaa-war-manifest
-#       trigger: true
-#       passed: [test-uaa-war]
-#   - task: system-test-web-ui
-#     file: web-ui/apps/web-ui/ci/tasks/system-tests.yml
-#     params: *cf-params
-#     on_failure:
-#       task: cleanup-web-ui
-#       file: web-ui/apps/web-ui/ci/tasks/cleanup.yml
-#       params: *cf-params
-#
-# - name: cleanup-web-ui
-#   plan:
-#   - get: web-ui
-#     passed: [system-test-web-ui]
-#     trigger: true
-#   - task: cleanup-web-ui
-#     file: web-ui/apps/web-ui/ci/tasks/cleanup.yml
-#     params: *cf-params
+  - task: system-test-web-ui
+    file: source/web-ui/ci/tasks/system-tests.yml
+    params: *cf-params
+    on_failure:
+      task: cleanup-web-ui
+      file: source/web-ui/ci/tasks/cleanup.yml
+      params: *cf-params
+
+- name: cleanup-web-ui
+  plan:
+  - get: source
+    passed: [integration-test]
+    trigger: true
+  - task: cleanup-web-ui
+    file: source/web-ui/ci/tasks/cleanup.yml
+    params: *cf-params

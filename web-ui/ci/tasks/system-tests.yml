@@ -8,13 +8,12 @@ image_resource:
     tag: 'latest'
 
 inputs:
-- name: web-ui
+- name: source
 - name: uaa-war
 - name: uaa-war-manifest
 
 run:
-  path: apps/web-ui/ci/scripts/system-tests.sh
-  dir: web-ui
+  path: source/ci/scripts/system-tests.sh
 
 params:
   CF_API_URL:

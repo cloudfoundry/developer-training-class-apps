@@ -2,12 +2,11 @@
 
 set -eu
 
-dirname=$(dirname $0)
 
-. $dirname/../../../../ci/solution_setup.sh
-pushd $dirname
-  git_sha=$(get_short_revision ../../../../)
-popd
+. source/ci/solution_setup.sh
+
+git_sha=$(get_short_revision source)
+
 app_name=ruby-web-ui-${git_sha}
 static_app_name=ruby-static-ui-${git_sha}
 uaa_app_name=uaa-${git_sha}
