@@ -22,6 +22,8 @@ You need an AWS S3 bucket with versioning enabled (along with a user that has al
 
 The following config values are required:
 
+Can be shared - credhub: /concourse/cff/${param}
+
 cf_api_url
 cf_user_name
 cf_password
@@ -39,4 +41,7 @@ aws_secret_access_key
 mysql_service_name
 mysql_plan_name
 
-github_private_key
+
+## Running
+
+fly -t ${concourse-target} set-pipeline

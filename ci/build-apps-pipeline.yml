@@ -9,11 +9,19 @@ cf-params: &cf-params
 
 resources:
 
-- name: source
+- name: ci-tasks
   type: git
   source:
-    uri: git@github.com:cloudfoundry/developer-training-class-apps.git
+    uri: https://github.com/cloudfoundry/developer-training-class-apps.git
     branch: master
+    paths: [ci/tasks/*]
+
+- name: rate-limit-route-service-source
+  type: git
+  source:
+    uri: https://github.com/cloudfoundry/developer-training-class-apps.git
+    branch: master
+    paths: [rate-limit-route-service/*]
 
 - name: rate-limiter-jar
   type: s3
@@ -24,16 +32,19 @@ resources:
     access_key_id: ((aws_access_key_id))
     secret_access_key: ((aws_secret_access_key))
 
+
+
 jobs:
 
 - name: build-rate-limiter
   plan:
-  - get: source
+  - get: rate-limit-route-service-source
     trigger: true
+  - get: ci-tasks
   - task: build-rate-limiter
-    file: source/ci/tasks/mvn-clean-package.yml
+    file: ci-tasks/ci/tasks/mvn-clean-package.yml
     params:
-      APP_PATH: rate-limit-route-service
+      APP_PATH: rate-limit-route-service-source
   - put: rate-limiter-jar
     params:
       file: artifacts/rate-limit-route-service.jar
