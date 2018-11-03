@@ -45,9 +45,19 @@ resources:
     access_key_id: ((aws_access_key_id))
     secret_access_key: ((aws_secret_access_key))
 
+- name: web-ui-zip
+  type: s3
+  source:
+    bucket: ((assets_bucket_name))
+    region_name: ((assets_bucket_region))
+    versioned_file: web-ui.zip
+    access_key_id: ((aws_access_key_id))
+    secret_access_key: ((aws_secret_access_key))
+
 jobs:
 
 - name: unit-test
+  serial: true
   plan:
   - get: source
     trigger: true
@@ -55,6 +65,7 @@ jobs:
     file: source/web-ui/ci/tasks/unit-tests.yml
 
 - name: integration-test
+  serial: true
   plan:
   - aggregate:
     - get: source
@@ -80,6 +91,19 @@ jobs:
       task: cleanup-web-ui
       file: source/web-ui/ci/tasks/cleanup.yml
       params: *cf-params
+
+- name: package
+  serial: true
+  plan:
+  - get: source
+    passed: [integration-test]
+    trigger: true
+  - task: create-zip
+    file: source/web-ui/ci/tasks/create-zip.yml
+  - put: web-ui-zip
+    params:
+      file: artifacts/web-ui.zip
+
 
 - name: cleanup-web-ui
   plan:

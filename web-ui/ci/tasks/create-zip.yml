@@ -1,0 +1,17 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: rscale/golang-image
+    tag: 'latest'
+
+inputs:
+- name: source
+
+outputs:
+- name: artifacts
+
+run:
+  path: source/web-ui/ci/tasks/create-zip.sh
