@@ -2,6 +2,7 @@
 applications:
 - name: web-ui
   random-route: true
-  buildpack: https://github.com/cloudfoundry/ruby-buildpack.git#v1.6.35
+  buildpacks:
+  - buildpack: https://github.com/cloudfoundry/ruby-buildpack.git#v1.6.35
   memory: 128M
   instances: 1
