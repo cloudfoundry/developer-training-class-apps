@@ -8,7 +8,8 @@ applications:
   path: uaa.war
   routes:
     - route: ((route))
-  buildpack: https://github.com/cloudfoundry/java-buildpack.git#v3.19
+  buildpacks:
+    - https://github.com/cloudfoundry/java-buildpack.git#v3.19
   env:
     buildpack: https://github.com/cloudfoundry/java-buildpack.git#v3.19
     UAA_URL: http://((route))
