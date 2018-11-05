@@ -29,14 +29,14 @@ jobs:
   - task: test-rest-data-service
     file: source/rest-data-service/ci/tasks/test.yml
     params:
-      CF_API_URL: ((cf_api_url))
-      CF_USER_NAME: ((cf_user_name))
-      CF_PASSWORD: ((cf_password))
-      CF_ORG: ((cf_org))
-      CF_SKIP_SSL: ((cf_skip_ssl))
-      CF_SPACE: ((cf_space))
-      MYSQL_SERVICE_NAME: ((mysql_service_name))
-      MYSQL_PLAN_NAME: ((mysql_plan_name))
+      CF_API_URL: ((cf_it_api_url))
+      CF_USERNAME: ((cf_it_username))
+      CF_PASSWORD: ((cf_it_password))
+      CF_ORG: ((cf_it_org))
+      CF_SKIP_SSL: ((cf_it_skip_ssl))
+      CF_SPACE: ((cf_it_space))
+      MYSQL_SERVICE_NAME: ((mysql_it_service_name))
+      MYSQL_PLAN_NAME: ((mysql_it_plan_name))
   - put: jar
     params:
       file: artifacts/rest-data-service.jar

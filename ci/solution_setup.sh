@@ -8,7 +8,7 @@ cf_login() {
     SKIP_SSL=""
   fi
 
-  cf login -a $CF_API_URL -u $CF_USER_NAME -p $CF_PASSWORD -o $CF_ORG -s $CF_SPACE $SKIP_SSL
+  cf login -a $CF_API_URL -u $CF_USERNAME -p $CF_PASSWORD -o $CF_ORG -s $CF_SPACE $SKIP_SSL
 }
 
 echo "Attempting to log in"

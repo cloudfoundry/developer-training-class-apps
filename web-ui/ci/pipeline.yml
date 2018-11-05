@@ -1,13 +1,13 @@
 ---
 
 cf-params: &cf-params
-      CF_API_URL: ((cf_api_url))
-      CF_USER_NAME: ((cf_user_name))
-      CF_PASSWORD: ((cf_password))
-      CF_ORG: ((cf_org))
-      CF_SKIP_SSL: ((cf_skip_ssl))
-      CF_SPACE: ((cf_space))
-      CF_APP_DOMAIN: ((cf_app_domain))
+      CF_API_URL: ((cf_it_api_url))
+      CF_USERNAME: ((cf_it_username))
+      CF_PASSWORD: ((cf_it_password))
+      CF_ORG: ((cf_it_org))
+      CF_SKIP_SSL: ((cf_it_skip_ssl))
+      CF_SPACE: ((cf_it_space))
+      CF_APP_DOMAIN: ((cf_it_app_domain))
 
 resources:
 

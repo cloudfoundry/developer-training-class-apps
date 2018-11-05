@@ -16,9 +16,9 @@ run:
 
 params:
   CF_API_URL:
-  CF_USER_NAME:
+  CF_USERNAME:
   CF_PASSWORD:
   CF_ORG:
   CF_SKIP_SSL:
   CF_SPACE:
-  CF_APP_DOMAIN: 
+  CF_APP_DOMAIN:
