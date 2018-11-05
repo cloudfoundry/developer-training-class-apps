@@ -72,11 +72,9 @@ jobs:
       passed: [unit-test]
       trigger: true
     - get: uaa-war
-      trigger: true
     - get: uaa-manifest
       trigger: true
     - get: rest-data-service-jar
-      trigger: true
   - task: deploy
     file: source/web-ui/ci/tasks/deploy.yml
     params: *cf-params
