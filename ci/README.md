@@ -10,7 +10,7 @@ The pipeline prepares the applications for inclusion in the builds of the course
 
 In order to run the pipelines, you need the following:
 
-* Artifact Bucket: The bucket is used to house app artifacts.
+* Artifact Bucket: The bucket is used to house app artifacts. Artifacts included in the class site will be picked up from this bucket.
   * S3 bucket with versioning enabled
   * A user that has all access on the bucket (example IAM policy below)
 
