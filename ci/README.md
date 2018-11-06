@@ -27,7 +27,7 @@ In order to run the pipelines, you need the following:
             ]
         }
     ]
-}
+  }
   ```
 
 * Cloud Foundry: Some of the pipelines will run integration tests against apps running in CF.
