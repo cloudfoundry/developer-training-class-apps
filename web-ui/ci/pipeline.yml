@@ -17,6 +17,7 @@ resources:
     uri: https://github.com/cloudfoundry/developer-training-class-apps.git
     branch: master
     paths: [web-ui/*,ci/solution_setup.sh]
+    depth: 1
 
 - name: uaa-war
   type: s3

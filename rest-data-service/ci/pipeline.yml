@@ -8,6 +8,7 @@ resources:
     uri: https://github.com/cloudfoundry/developer-training-class-apps.git
     branch: master
     paths: [rest-data-service/*,ci/solution_setup.sh]
+    depth: 1
 
 - name: jar
   type: s3

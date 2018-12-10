@@ -15,6 +15,7 @@ resources:
     uri: https://github.com/cloudfoundry/developer-training-class-apps.git
     branch: master
     paths: [uaa/*,ci/solution_setup.sh]
+    depth: 1
 
 - name: uaa-source
   type: git
@@ -22,6 +23,7 @@ resources:
     uri: https://github.com/cloudfoundry/uaa.git
     branch: master
     tag_filter: "3.11.0"
+    depth: 1
 
 - name: uaa-war
   type: s3

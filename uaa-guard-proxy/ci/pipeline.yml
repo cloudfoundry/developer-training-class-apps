@@ -8,6 +8,7 @@ resources:
     uri: https://github.com/cloudfoundry/developer-training-class-apps.git
     branch: master
     paths: [uaa-guard-proxy/*]
+    depth: 1
 
 - name: zip
   type: s3
