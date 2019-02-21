@@ -11,7 +11,7 @@ uaa_app_name=web-ui-uaa
 
 route=$(get_route $app_name)
 static_route=$(get_route $static_app_name)
-uaa_route=$(get_route $uaa_name)
+uaa_route=$(get_route $uaa_app_name)
 
 curl --silent $route | grep -q "Welcome" || (echo "was not welcome at $route" && exit 1)
 curl --silent $static_route | grep -q "Staticfile"  || (echo "was not static at $static_route" && exit 1)
