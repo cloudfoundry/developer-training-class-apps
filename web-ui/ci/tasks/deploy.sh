@@ -4,16 +4,12 @@ set -eu
 
 . source/ci/solution_setup.sh
 
-git_sha=$(get_short_revision source)
-
-echo "GIT_SHA: ${git_sha}"
-
-app_name=ruby-web-ui-${git_sha}
-static_app_name=ruby-static-ui-${git_sha}
-data_app_name=data_service-${git_sha}
-uaa_app_name=uaa-${git_sha}
-uaa_service_name=uaa-tokens-${git_sha}
-rest_service_name=rest-backend-ruby-${git_sha}
+app_name=ruby-web-ui
+static_app_name=ruby-static-ui
+data_app_name=web-ui-data_service
+rest_service_name=rest-backend-ruby
+uaa_app_name=web-ui-uaa
+uaa_service_name=uaa-tokens
 
 cf push $data_app_name -p rest-data-service-jar/rest-data-service.jar -d ${CF_APP_DOMAIN} -b java_buildpack
 

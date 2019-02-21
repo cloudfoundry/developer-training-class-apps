@@ -5,11 +5,9 @@ set -eu
 
 . source/ci/solution_setup.sh
 
-git_sha=$(get_short_revision source)
-
-app_name=ruby-web-ui-${git_sha}
-static_app_name=ruby-static-ui-${git_sha}
-uaa_name=uaa-${git_sha}
+app_name=ruby-web-ui
+static_app_name=ruby-static-ui
+uaa_app_name=web-ui-uaa
 
 route=$(get_route $app_name)
 static_route=$(get_route $static_app_name)

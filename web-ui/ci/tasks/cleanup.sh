@@ -4,14 +4,12 @@ set -eu
 
 . source/ci/solution_setup.sh
 
-git_sha=$(get_short_revision source)
-
-app_name=ruby-web-ui-${git_sha}
-static_app_name=ruby-static-ui-${git_sha}
-data_app_name=data_service-${git_sha}
-rest_service_name=rest-backend-ruby-${git_sha}
-uaa_app_name=uaa-${git_sha}
-uaa_service_name=uaa-tokens-${git_sha}
+app_name=ruby-web-ui
+static_app_name=ruby-static-ui
+data_app_name=web-ui-data_service
+rest_service_name=rest-backend-ruby
+uaa_app_name=web-ui-uaa
+uaa_service_name=uaa-tokens
 
 cf delete -f -r $uaa_app_name || echo "$uaa_app_name could not be deleted"
 cf delete -f -r $static_app_name || echo "$static_app_name could not be deleted"
