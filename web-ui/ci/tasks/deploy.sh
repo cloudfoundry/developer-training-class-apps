@@ -15,7 +15,7 @@ uaa_app_name=uaa-${git_sha}
 uaa_service_name=uaa-tokens-${git_sha}
 rest_service_name=rest-backend-ruby-${git_sha}
 
-cf push $data_app_name -p rest-data-service-jar/rest-data-service.jar --random-route
+cf push $data_app_name -p rest-data-service-jar/rest-data-service.jar --random-route -b java_buildpack
 
 data_route=$(get_route $data_app_name)
 curl -Lso/dev/null $data_route || (echo "failed to reach $data_route" && exit 1)
