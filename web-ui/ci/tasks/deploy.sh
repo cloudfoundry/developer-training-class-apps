@@ -20,7 +20,7 @@ cf push $data_app_name -p rest-data-service-jar/rest-data-service.jar --random-r
 data_route=$(get_route $data_app_name)
 curl -Lso/dev/null $data_route || (echo "failed to reach $data_route" && exit 1)
 
-cf push $app_name -m 256M --no-start -p source/web-ui/
+cf push $app_name -m 256M --no-start -p source/web-ui/ -f source/web-ui/manifest.yml
 cf cups $rest_service_name -p "{\"url\":\"$data_route\"}"
 cf bind-service $app_name $rest_service_name
 cf start $app_name
