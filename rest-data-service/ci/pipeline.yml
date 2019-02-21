@@ -40,12 +40,14 @@ jobs:
     file: source/rest-data-service/ci/tasks/test.yml
     params: *cf-params
     on_failure:
-    - task: cleanup
+      task: cleanup
       file: source/rest-data-service/ci/tasks/cleanup.yml
-      params: *cf-params
+      params:
+        << : *cf-params
   - task: cleanup
     file: source/rest-data-service/ci/tasks/cleanup.yml
-    params: *cf-params
+    params:
+      << : *cf-params
   - put: jar
     params:
       file: artifacts/rest-data-service.jar
