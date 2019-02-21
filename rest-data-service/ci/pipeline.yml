@@ -38,7 +38,10 @@ jobs:
     file: source/rest-data-service/ci/tasks/mvn-clean-package.yml
   - task: test-rest-data-service
     file: source/rest-data-service/ci/tasks/test.yml
-    params: *cf-params
+    params:
+      << : *cf-params
+      MYSQL_SERVICE_NAME: ((mysql_it_service_name))
+      MYSQL_PLAN_NAME: ((mysql_it_plan_name))
     on_failure:
       task: cleanup
       file: source/rest-data-service/ci/tasks/cleanup.yml
