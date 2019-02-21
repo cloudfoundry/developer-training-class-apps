@@ -6,3 +6,4 @@ applications:
     - https://github.com/cloudfoundry/ruby-buildpack.git#v1.6.35
   memory: 128M
   instances: 1
+  stack: cflinuxfs2
