@@ -1,5 +1,14 @@
 ---
 
+cf-params: &cf-params
+      CF_API_URL: ((cf_it_api_url))
+      CF_USERNAME: ((cf_it_username))
+      CF_PASSWORD: ((cf_it_password))
+      CF_ORG: ((cf_it_org))
+      CF_SKIP_SSL: ((cf_it_skip_ssl))
+      CF_SPACE: ((cf_it_space))
+      CF_APP_DOMAIN: ((cf_it_app_domain))
+
 resources:
 
 - name: source
@@ -29,16 +38,14 @@ jobs:
     file: source/rest-data-service/ci/tasks/mvn-clean-package.yml
   - task: test-rest-data-service
     file: source/rest-data-service/ci/tasks/test.yml
-    params:
-      CF_API_URL: ((cf_it_api_url))
-      CF_USERNAME: ((cf_it_username))
-      CF_PASSWORD: ((cf_it_password))
-      CF_ORG: ((cf_it_org))
-      CF_SKIP_SSL: ((cf_it_skip_ssl))
-      CF_SPACE: ((cf_it_space))
-      CF_APP_DOMAIN: ((cf_it_app_domain))
-      MYSQL_SERVICE_NAME: ((mysql_it_service_name))
-      MYSQL_PLAN_NAME: ((mysql_it_plan_name))
+    params: *cf-params
+    on_failure:
+    - task: cleanup
+      file: source/rest-data-service/ci/tasks/cleanup.yml
+      params: *cf-params
+  - task: cleanup
+    file: source/rest-data-service/ci/tasks/cleanup.yml
+    params: *cf-params
   - put: jar
     params:
       file: artifacts/rest-data-service.jar

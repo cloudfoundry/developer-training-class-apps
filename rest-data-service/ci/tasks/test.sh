@@ -71,8 +71,3 @@ cf events $app_name | grep CRASHED
 
 echo "Kill endpoint tests passed"
 echo "All tests passed"
-
-echo "Cleaning up"
-# Not on course. Tidy up...
-cf delete -f -r $app_name
-cf delete-service -f $service_name
