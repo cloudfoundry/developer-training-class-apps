@@ -36,6 +36,7 @@ jobs:
       CF_ORG: ((cf_it_org))
       CF_SKIP_SSL: ((cf_it_skip_ssl))
       CF_SPACE: ((cf_it_space))
+      CF_APP_DOMAIN: ((cf_it_app_domain))
       MYSQL_SERVICE_NAME: ((mysql_it_service_name))
       MYSQL_PLAN_NAME: ((mysql_it_plan_name))
   - put: jar

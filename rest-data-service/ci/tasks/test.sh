@@ -2,8 +2,8 @@
 
 set -eu
 
-app_name=$RANDOM$RANDOM
-service_name=$RANDOM$RANDOM
+app_name=rest-data-service
+service_name=rest-data-service-db
 
 . source/ci/solution_setup.sh
 
@@ -11,7 +11,7 @@ echo "Create database service"
 cf create-service $MYSQL_SERVICE_NAME $MYSQL_PLAN_NAME $service_name
 
 echo "Push app"
-cf push $app_name -p artifacts/rest-data-service.jar --random-route --no-start -m 750M
+cf push $app_name -p artifacts/rest-data-service.jar --random-route --no-start -m 750M -d $CF_APP_DOMAIN
 cf set-env $app_name ROSTER_A bar
 cf set-env $app_name ROSTER_C foo
 cf set-env $app_name ROSTER_B baz
