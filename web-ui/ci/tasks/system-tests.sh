@@ -23,8 +23,10 @@ curl --silent $route | grep -q "anonymous" || (echo "No anonymous access to web 
 gem install cf-uaac
 
 # create an access token using uaac
+echo "targeting https://$uaa_route"
 uaac target https://$uaa_route
-uaac token get marissa koala
+echo "fetching token"
+uaac token get marissa koala --skip-ssl-validation
 access_token=$(grep "access_token:" ~/.uaac.yml | awk {'print $2'})
 
 # access the app passing in the access token & check that the page detects who the access token was for
