@@ -24,9 +24,9 @@ gem install cf-uaac
 
 # create an access token using uaac
 echo "targeting https://$uaa_route"
-uaac target https://$uaa_route
+uaac target --skip-ssl-validation https://$uaa_route 
 echo "fetching token"
-uaac token get marissa koala --skip-ssl-validation
+uaac token get marissa koala
 access_token=$(grep "access_token:" ~/.uaac.yml | awk {'print $2'})
 
 # access the app passing in the access token & check that the page detects who the access token was for
