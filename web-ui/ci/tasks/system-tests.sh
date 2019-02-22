@@ -2,6 +2,7 @@
 
 set -eu
 
+set -x
 
 . source/ci/solution_setup.sh
 
@@ -24,7 +25,7 @@ gem install cf-uaac
 
 # create an access token using uaac
 echo "targeting https://$uaa_route"
-uaac target --skip-ssl-validation https://$uaa_route 
+uaac target --skip-ssl-validation https://$uaa_route
 echo "fetching token"
 uaac token get marissa koala
 access_token=$(grep "access_token:" ~/.uaac.yml | awk {'print $2'})
