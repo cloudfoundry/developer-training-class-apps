@@ -2,8 +2,6 @@
 
 set -eu
 
-set -x
-
 . source/ci/solution_setup.sh
 
 app_name=ruby-web-ui
@@ -24,9 +22,7 @@ curl --silent $route | grep -q "anonymous" || (echo "No anonymous access to web 
 gem install cf-uaac
 
 # create an access token using uaac
-echo "targeting https://$uaa_route"
-uaac target --skip-ssl-validation https://$uaa_route
-echo "fetching token"
+uaac target http://$uaa_route
 uaac token get marissa koala
 access_token=$(grep "access_token:" ~/.uaac.yml | awk {'print $2'})
 
