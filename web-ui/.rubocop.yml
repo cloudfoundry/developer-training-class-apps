@@ -8,7 +8,7 @@ AllCops:
   TargetRubyVersion: 2.3
 
 Style/FrozenStringLiteralComment:
-  EnforcedStyle: when_needed
+  EnforcedStyle: always
 
 Metrics/LineLength:
   Max: 180
