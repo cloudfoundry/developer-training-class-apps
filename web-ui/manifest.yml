@@ -2,7 +2,7 @@
 applications:
 - name: web-ui
   buildpacks:
-    - https://github.com/cloudfoundry/ruby-buildpack.git#v1.6.35
+    - https://github.com/cloudfoundry/ruby-buildpack.git#v1.7.41
   memory: 128M
   instances: 1
-  stack: cflinuxfs2
+  stack: cflinuxfs3
