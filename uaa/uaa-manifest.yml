@@ -10,7 +10,7 @@ applications:
     - route: ((route))
   buildpacks:
     - https://github.com/cloudfoundry/java-buildpack.git#v3.19
-  stack: cflinuxfs2
+  stack: cflinuxfs3
   env:
     buildpack: https://github.com/cloudfoundry/java-buildpack.git#v3.19
     UAA_URL: http://((route))
