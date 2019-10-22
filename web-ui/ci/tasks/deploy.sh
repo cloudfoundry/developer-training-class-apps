@@ -6,7 +6,7 @@ set -eu
 
 app_name=ruby-web-ui-class-app
 static_app_name=ruby-static-ui-class-app
-data_app_name=web-ui-data_service
+data_app_name=web-ui-data_service-class-app
 rest_service_name=rest-backend-ruby
 uaa_app_name=web-ui-uaa-class-app
 uaa_service_name=uaa-tokens
