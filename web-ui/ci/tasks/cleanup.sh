@@ -4,11 +4,11 @@ set -eu
 
 . source/ci/solution_setup.sh
 
-app_name=ruby-web-ui
-static_app_name=ruby-static-ui
+app_name=ruby-web-ui-class-app
+static_app_name=ruby-static-ui-class-app
 data_app_name=web-ui-data_service
 rest_service_name=rest-backend-ruby
-uaa_app_name=web-ui-uaa
+uaa_app_name=web-ui-uaa-class-app
 uaa_service_name=uaa-tokens
 
 cf delete -f -r $uaa_app_name || echo "$uaa_app_name could not be deleted"

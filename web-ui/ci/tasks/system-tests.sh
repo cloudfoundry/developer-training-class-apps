@@ -4,9 +4,9 @@ set -eu
 
 . source/ci/solution_setup.sh
 
-app_name=ruby-web-ui
-static_app_name=ruby-static-ui
-uaa_app_name=web-ui-uaa
+app_name=ruby-web-ui-class-app
+static_app_name=ruby-static-ui-class-app
+uaa_app_name=web-ui-uaa-class-app
 
 route=$(get_route $app_name)
 static_route=$(get_route $static_app_name)
