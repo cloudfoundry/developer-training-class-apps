@@ -9,10 +9,10 @@ applications:
   routes:
     - route: ((route))
   buildpacks:
-    - https://github.com/cloudfoundry/java-buildpack.git#v3.19
+    - https://github.com/cloudfoundry/java-buildpack.git#v4.24
   stack: cflinuxfs3
   env:
-    buildpack: https://github.com/cloudfoundry/java-buildpack.git#v3.19
+    buildpack: https://github.com/cloudfoundry/java-buildpack.git#v4.24
     UAA_URL: http://((route))
     LOGIN_URL: http://((route))
     JBP_CONFIG_SPRING_AUTO_RECONFIGURATION: '{enabled: false}'
